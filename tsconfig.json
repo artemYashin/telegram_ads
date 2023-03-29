@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "NodeNext",
+    "outDir": ".",
+    "baseUrl": "./",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": [
+    "./node_modules"
+  ]
+}

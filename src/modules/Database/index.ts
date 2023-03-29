@@ -1,0 +1,1 @@
+export { initDatabase, getData, setData } from './Database.js'

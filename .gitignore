@@ -1,0 +1,4 @@
+node_modules/*
+modules/*
+bot.js
+package-lock.json
