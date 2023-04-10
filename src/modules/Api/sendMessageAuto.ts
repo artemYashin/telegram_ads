@@ -6,7 +6,6 @@ import sendMessage from "./sendMessage.js";
 import { updateMessageId } from "../Handler/states/updateMessageId.js";
 import { getBotInstance } from "../BotManager/Bot.js";
 import { getBotInstance as getBotManagerInstance } from "../BotManager/BotsManager.js";
-import { Message } from "discord.js";
 
 export interface MessageDetails {
     chatid: number;
