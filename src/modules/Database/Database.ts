@@ -1,17 +1,22 @@
 import { LogTags, showCriticalError, showError, showNotice, showSuccess, showWarningError } from '../Logging/index.js';
 import { JsonDB, Config } from 'node-json-db';
 
+export enum Paths {
+    USERS = "/users",
+    PASSWORDS = "/passwords",
+}
+
 const db = new JsonDB(new Config('database', true, false, '/'));
 
 export async function getData(path: string) {
     return new Promise<any>(async (resolve, reject) => {
-        try {
-            const data = await db.getData(path);
-            resolve(data);
-        } catch {
+        db.getData(path).then((res) => {
+            resolve(res);
+        })
+        .catch(() => {
             showNotice(`Tried to access not existing path ${path}`, LogTags.DATABASE)
             reject();
-        }
+        });
     });
 }
 

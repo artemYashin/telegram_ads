@@ -1,10 +1,11 @@
-import { changeStateField, getUserState, State } from "../../UserState/UserState.js";
-import { renderMainScreen } from "./handleMainState.js";
+import { State, findUser, updateUserState } from "../../UserState/UserState.js";
 
 export async function cancelState(chatid: number) {
     return new Promise<void>(async (resolve) => {
-        await changeStateField(chatid, { state: State.MAIN_SCREEN });
-        await renderMainScreen(chatid);
+        const user = await findUser(chatid);
+        user.state = State.MAIN_SCREEN;
+        user.state_for = false;
+        await updateUserState(user);
         resolve();
     });
 }

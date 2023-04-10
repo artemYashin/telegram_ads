@@ -1,9 +1,9 @@
 import deleteMessage from "../../Api/deleteMessage.js";
-import { getUserState } from "../../UserState/UserState.js";
+import { findUser } from "../../UserState/UserState.js";
 
 export async function deleteLastButtons(chatid: number) {
     return new Promise<void>(async (resolve) => {
-        const msgId = (await getUserState(chatid)).messageId;
+        const msgId = (await findUser(chatid)).messageId;
 
         if (msgId) {
             try {

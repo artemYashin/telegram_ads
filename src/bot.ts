@@ -4,7 +4,7 @@ config();
 
 import { LogTags, showCriticalError, showNotice, showSuccess, showWarningError } from './modules/Logging/ConsoleLog.js';
 import { initDatabase } from './modules/Database/index.js';
-import { initBot } from './modules/Bot/Bot.js';
+import { initBot } from './modules/BotManager/Bot.js';
 
 // Database initialization
 await initDatabase();

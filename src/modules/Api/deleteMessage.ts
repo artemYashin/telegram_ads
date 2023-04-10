@@ -1,4 +1,4 @@
-import { getBotInstance } from "../Bot/Bot.js";
+import { getBotInstance } from "../BotManager/Bot.js";
 
 export default async function deleteMessage(chatid: number, msgid: number) {
     const bot = getBotInstance();
