@@ -79,8 +79,10 @@ export async function checkUpdates() {
                     const runningBots = bots.get(bots);
                     
                     if (runningBots == undefined || runningBots.find((el) => el.id == bot.id) === undefined) {
-                        await runBot(users[i].id, bot.id).catch();
+                        await runBot(users[i].id, bot.id).catch(() => false);
                     }
+                } else {
+                    await runBot(users[i].id, bot.id).catch(() => false);
                 }
             }
         }

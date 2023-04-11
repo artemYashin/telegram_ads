@@ -1,6 +1,6 @@
 import { Bot, Context } from "grammy";
 import { CommandList } from "../Handler/states/commandList.js";
-import { LogTags, showCriticalError, showNotice, showSuccess, showWarningError } from "../Logging/ConsoleLog.js";
+import { LogTags, showCriticalError, showError, showNotice, showSuccess, showWarningError } from "../Logging/ConsoleLog.js";
 import { addReciever, removeReciever } from "../Recievers/Recievers.js";
 import { getCronSchedule } from "../Timer/Cron.js";
 import { handleMessage } from "../Handler/MessageHandler.js";
@@ -43,14 +43,20 @@ function addEventHandler() {
     showNotice('Setting up event handlers...', LogTags.INIT)
     
     // Message handler
-    bot.on("message", async (ctx: Context) => {
-        handleMessage(ctx);
+    bot.on("message", (ctx: Context) => {
+        (async () => { 
+            handleMessage(ctx).catch(err => {
+                showError(err);
+            })
+        })();
     });
 
     // Buttons handler
     bot.on('callback_query:data', async (ctx) => {
         const chatId = ctx.update.callback_query.from.id;
-        await handleCommand(chatId, ctx.update.callback_query.data as CommandList);
+        await handleCommand(chatId, ctx.update.callback_query.data as CommandList).catch((err) => {
+            showError(err);
+        });
         try {
             await ctx.answerCallbackQuery(); // remove loading animation
         } catch {
