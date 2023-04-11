@@ -23,7 +23,6 @@ import { renderActiveUsersScreen, renderDisabledUsersScreen, renderUsersListScre
 export async function handleCommand(chatid: number, payload: string) {
     return new Promise<void>(async (resolve) => {
         const user = await findUser(chatid);
-
         if (!user.isEnabled) {
             resolve();
             return;

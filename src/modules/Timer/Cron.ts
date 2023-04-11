@@ -23,11 +23,13 @@ export function getCronSchedule() {
         const users = await getUsers();
         
         for (let user of users) {
-            if (user.bots.length > 0) {
-                for (let bot of user.bots) {
-                    if (bot.isActive) {
-                        if (isItTime(bot.schedule)) {
-                            await sendArticleToRecievers(bot.id);
+            if (user.bots.length > 0) { 
+                if (user.isEnabled) {
+                    for (let bot of user.bots) {
+                        if (bot.isActive) {
+                            if (isItTime(bot.schedule)) {
+                                await sendArticleToRecievers(bot.id);
+                            }
                         }
                     }
                 }

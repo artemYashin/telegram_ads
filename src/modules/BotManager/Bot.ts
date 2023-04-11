@@ -52,16 +52,18 @@ function addEventHandler() {
     });
 
     // Buttons handler
-    bot.on('callback_query:data', async (ctx) => {
-        const chatId = ctx.update.callback_query.from.id;
-        await handleCommand(chatId, ctx.update.callback_query.data as CommandList).catch((err) => {
-            showError(err);
-        });
-        try {
-            await ctx.answerCallbackQuery(); // remove loading animation
-        } catch {
-            showNotice('Tried to answer callback query error');
-        }
+    bot.on('callback_query:data', (ctx) => {
+        (async () => {
+            const chatId = ctx.update.callback_query.from.id;
+            await handleCommand(chatId, ctx.update.callback_query.data as CommandList).catch((err) => {
+                showError(err);
+            });
+            try {
+                await ctx.answerCallbackQuery(); // remove loading animation
+            } catch {
+                showNotice('Tried to answer callback query error');
+            }
+        })();
     });
     
     showSuccess('Setting up event handlers... success', LogTags.INIT)
