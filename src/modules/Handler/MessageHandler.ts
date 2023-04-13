@@ -1,11 +1,13 @@
 import { Context } from "grammy";
 import { LogTags, showError, showNotice, showWarningError } from "../Logging/index.js";
-import { AdvertisementPost, findUser, findUserByBotId, State, updateUserState } from "../UserState/UserState.js";
+import { AdvertisementPost, findUser, findUserByBotId, parseStateType, State, updateUserState } from "../UserState/UserState.js";
 import handleNewUser from "./handleNewUser.js";
 import { saveArticle } from "../Article/Article.js";
 import { renderMainScreen } from "./views/renderMainScreen.js";
 import { handleNewBot } from "./states/handleNewBot.js";
 import { checkUpdates } from "../BotManager/BotsManager.js";
+import { renderBotSettingsScreen } from "./views/renderBotSettingsScreen.js";
+import { deleteLastButtons } from "./states/deleteLastButtons.js";
 
 export async function handleMessage(ctx: Context) {
     return new Promise<void>(async (resolve) => {
@@ -58,12 +60,26 @@ export async function handleMessage(ctx: Context) {
                 article.text = msg;
                 article.entities = ctx.update.message?.entities;
             }
-    
-            await saveArticle(chatId, article).catch(() => false);
-            user.state = State.MAIN_SCREEN;
-            user.state_for = false;
-            await updateUserState(user);
-            shouldRenderMainScreen = true;
+            if (user.state_for !== false) {
+                const state = parseStateType(user.state_for);
+                const botid = state?.payload;
+                await saveArticle(chatId, article).catch(() => false);
+                user.state = State.MAIN_SCREEN;
+                user.state_for = false;
+                await updateUserState(user);
+                if (botid) {
+                    await deleteLastButtons(chatId);
+                    await renderBotSettingsScreen({
+                        chatid: Number(chatId),
+                        botid: Number(botid),
+                        text: 'Пост успешно обновлен!',
+                        send: true,
+                    });
+                    showNotice('Request end.', LogTags.HANDLER);
+                    resolve();
+                    return;
+                }
+            }
         }
     
         // Check if waiting for token

@@ -23,6 +23,7 @@ import { renderActiveUsersScreen, renderDisabledUsersScreen, renderUsersListScre
 export async function handleCommand(chatid: number, payload: string) {
     return new Promise<void>(async (resolve) => {
         const user = await findUser(chatid);
+
         if (!user.isEnabled) {
             resolve();
             return;
@@ -62,7 +63,6 @@ export async function handleCommand(chatid: number, payload: string) {
                 await renderPasswordsScreen({
                     chatid: chatid,
                 });
-                return;
                 break;
             case CommandList.RENDER_PASSWORDS:
                 await renderPasswords(chatid);
@@ -150,7 +150,7 @@ export async function handleCommand(chatid: number, payload: string) {
                 botid: Number(botid)
             });
             resolve();
-                return;
+            return;
         }
 
         if (payload.startsWith(CommandList.SHOW_POST)) {

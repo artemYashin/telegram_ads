@@ -1,6 +1,6 @@
 import { Bot as GrammyBot } from 'grammy';
 import { Bot, findUser, getUsers } from '../UserState/UserState.js';
-import { showNotice, showWarningError } from '../Logging/ConsoleLog.js';
+import { showError, showNotice, showWarningError } from '../Logging/ConsoleLog.js';
 import { addReciever, removeReciever } from '../Recievers/Recievers.js';
 
 type BotInstance = {
@@ -116,8 +116,9 @@ function initBot(instance: GrammyBot, bot: Bot) {
         }
     });
 
-    instance.start().catch(() => {
+    instance.start().catch((err) => {
         showWarningError(`Bot with id ${bot.id} has crashed`);
+        showError(err);
     });
 }
 

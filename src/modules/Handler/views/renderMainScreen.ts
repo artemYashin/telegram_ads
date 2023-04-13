@@ -13,7 +13,7 @@ function getKeyboard(admin: boolean) {
     if (admin) {
         return (
         (new InlineKeyboard())
-        .text('📖Статус сервера', CommandList.SERVER_STATUS).row()
+        // .text('📖Статус сервера', CommandList.SERVER_STATUS).row()
         .text('🤖Список моих ботов', CommandList.BOT_LIST).row()
         .text('👥Список пользователей', CommandList.USERS_LIST).row()
         .text('🔑Список паролей', CommandList.PASSWORDS_LIST));

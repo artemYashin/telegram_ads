@@ -127,9 +127,8 @@ export async function findUserByBotId(botid: number): Promise<User> {
                 if (user.bots[i].id == botid) {
                     return true;
                 }
-
-                return false;
             }
+            return false;
         });
         
         if (user === undefined) {
