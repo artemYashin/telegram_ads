@@ -17,7 +17,9 @@ export async function addReciever(reciever: Reciever, botid: number) {
 
         user.bots.map((bot: Bot) => {
             if (bot.id == botid) {
-                bot.recievers.push(reciever.chatid);
+                if (!bot.recievers.includes(reciever.chatid)) {
+                    bot.recievers.push(reciever.chatid);
+                }
             }
             
             return bot;

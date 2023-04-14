@@ -70,19 +70,21 @@ export async function checkUpdates() {
         const users = await getUsers();
         
         for (let i = 0; i < users.length; i++) {
-            let userBots = users[i].bots;
-            
-            for (let j = 0; j < userBots.length; j++) {
-                let bot = userBots[j];
+            if (users[i].isEnabled) {
+                let userBots = users[i].bots;
                 
-                if (bots.has(users[i].id)) {
-                    const runningBots = bots.get(bots);
+                for (let j = 0; j < userBots.length; j++) {
+                    let bot = userBots[j];
                     
-                    if (runningBots == undefined || runningBots.find((el) => el.id == bot.id) === undefined) {
+                    if (bots.has(users[i].id)) {
+                        const runningBots = bots.get(users[i].id);
+
+                        if (runningBots == undefined || runningBots.find((el) => el.id == bot.id) === undefined) {
+                            await runBot(users[i].id, bot.id).catch(() => false);
+                        }
+                    } else {
                         await runBot(users[i].id, bot.id).catch(() => false);
                     }
-                } else {
-                    await runBot(users[i].id, bot.id).catch(() => false);
                 }
             }
         }
